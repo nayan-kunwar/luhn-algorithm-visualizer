@@ -1,0 +1,529 @@
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    background: #f7f7f5;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .wrap {
+    padding: 24px 20px;
+    max-width: 680px;
+  }
+
+  .top-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .card-input {
+    flex: 1;
+    min-width: 200px;
+    font-family: "Courier New", monospace;
+    font-size: 17px;
+    letter-spacing: 0.12em;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1.5px solid #d1d0c9;
+    background: #fff;
+    color: #1a1a18;
+    outline: none;
+  }
+  .card-input:focus {
+    border-color: #5b8df5;
+    box-shadow: 0 0 0 3px rgba(91, 141, 245, 0.15);
+  }
+  .btn-go {
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: 1.5px solid #d1d0c9;
+    background: #1a1a18;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn-go:hover {
+    background: #333;
+  }
+  .btn-go:active {
+    transform: scale(0.97);
+  }
+
+  .presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+  .preset-label {
+    font-size: 12px;
+    color: #888;
+    margin-right: 2px;
+  }
+  .preset-btn {
+    padding: 5px 11px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #555;
+    font-size: 11.5px;
+    font-family: "Courier New", monospace;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .preset-btn:hover {
+    background: #f0f0ee;
+    color: #111;
+  }
+  .preset-btn.pass-tag {
+    border-color: #b6dfc8;
+    color: #1a7a45;
+    background: #edfaf3;
+  }
+  .preset-btn.fail-tag {
+    border-color: #f5c2c2;
+    color: #b52b2b;
+    background: #fff1f1;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .step {
+    background: #fff;
+    border: 1px solid #e5e4df;
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: box-shadow 0.2s;
+  }
+  .step:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  }
+  .step-tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: #aaa;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .step-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a18;
+    margin-bottom: 12px;
+  }
+  .step-desc {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.6;
+    margin-top: 10px;
+  }
+  .step-note {
+    font-size: 12px;
+    color: #999;
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  .digits-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: flex-end;
+  }
+  .dc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .db {
+    width: 38px;
+    height: 38px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Courier New", monospace;
+    font-size: 15px;
+    font-weight: 700;
+    border: 1.5px solid #e5e4df;
+    background: #f9f9f7;
+    color: #333;
+  }
+  .db.check {
+    background: #e8f0fe;
+    border-color: #93b4f7;
+    color: #1a4db5;
+  }
+  .db.doubled {
+    background: #fff4e0;
+    border-color: #f5c96a;
+    color: #9a5c00;
+  }
+  .db.reduced {
+    background: #eafaf3;
+    border-color: #7dd5a8;
+    color: #156b3b;
+  }
+  .db.normal {
+    background: #f9f9f7;
+    border-color: #e5e4df;
+    color: #333;
+  }
+  .dlabel {
+    font-size: 10px;
+    color: #bbb;
+    font-family: "Courier New", monospace;
+  }
+
+  .sum-num {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a18;
+    margin: 10px 0 4px;
+    font-family: "Courier New", monospace;
+  }
+  .sum-eq {
+    font-size: 13px;
+    color: #999;
+    font-family: "Courier New", monospace;
+    word-break: break-all;
+    line-height: 1.7;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+  .badge.pass {
+    background: #eafaf3;
+    border: 1.5px solid #7dd5a8;
+    color: #156b3b;
+  }
+  .badge.fail {
+    background: #fff1f1;
+    border: 1.5px solid #f5a5a5;
+    color: #b52b2b;
+  }
+  .badge-icon {
+    font-size: 18px;
+  }
+
+  .mod-display {
+    font-size: 15px;
+    font-family: "Courier New", monospace;
+    color: #444;
+    margin: 8px 0;
+    background: #f4f4f2;
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 6px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #666;
+  }
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    border: 1.5px solid;
+  }
+  .next-step {
+  margin-top: 18px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1.5px solid;
+}
+
+.next-pass {
+  background: #f4fcf7;
+  border-color: #9bd9b5;
+}
+
+.next-fail {
+  background: #fff6f6;
+  border-color: #f3b0b0;
+}
+
+.next-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.flow-arrow {
+  font-size: 22px;
+  text-align: center;
+  margin: 6px 0;
+  color: #888;
+}
+
+.flow-success {
+  color: #156b3b;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.flow-stop {
+  color: #b52b2b;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.next-step ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.next-step li {
+  margin: 6px 0;
+  color: #555;
+  font-size: 13px;
+}
+</style>
+
+<div class="wrap">
+  <div class="top-bar">
+    <input
+      class="card-input"
+      id="ci"
+      maxlength="19"
+      placeholder="4539 1488 0343 6467"
+      value="4539 1488 0343 6467"
+      oninput="fmt(this)"
+    />
+    <button class="btn-go" onclick="run()">Validate →</button>
+  </div>
+
+  <div class="presets">
+    <span class="preset-label">Try:</span>
+    <button class="preset-btn pass-tag" onclick="set('4539148803436467')">
+      4539 1488 0343 6467 ✓
+    </button>
+    <button class="preset-btn pass-tag" onclick="set('4111111111111111')">
+      4111 1111 1111 1111 ✓
+    </button>
+    <button class="preset-btn fail-tag" onclick="set('5500005555554444')">
+      5500 0055 5555 4444 ✗
+    </button>
+    <button class="preset-btn fail-tag" onclick="set('1234567890123456')">
+      1234 5678 9012 3456 ✗
+    </button>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div
+        class="legend-dot"
+        style="background: #e8f0fe; border-color: #93b4f7"
+      ></div>
+      Check digit
+    </div>
+    <div class="legend-item">
+      <div
+        class="legend-dot"
+        style="background: #fff4e0; border-color: #f5c96a"
+      ></div>
+      Doubled
+    </div>
+    <div class="legend-item">
+      <div
+        class="legend-dot"
+        style="background: #eafaf3; border-color: #7dd5a8"
+      ></div>
+      Reduced (−9)
+    </div>
+    <div class="legend-item">
+      <div
+        class="legend-dot"
+        style="background: #f9f9f7; border-color: #e5e4df"
+      ></div>
+      Unchanged
+    </div>
+  </div>
+
+  <div class="steps" id="steps"></div>
+</div>
+
+<script>
+  function fmt(el) {
+    let v = el.value.replace(/\D/g, "").slice(0, 16);
+    el.value = v.replace(/(.{4})/g, "$1 ").trim();
+  }
+
+  function set(raw) {
+    const v = raw.replace(/(.{4})/g, "$1 ").trim();
+    document.getElementById("ci").value = v;
+    run();
+  }
+
+  function digitRow(vals, mode, origDigits, n) {
+    return vals
+      .map((v, i) => {
+        const pfr = n - 1 - i;
+        const isCheck = pfr === 0;
+        const is2x = pfr % 2 === 1;
+        let cls = "normal";
+        if (mode === "s1" && isCheck) cls = "check";
+        else if (mode === "s2" && is2x) cls = "doubled";
+        else if (mode === "s3") {
+          if (is2x) cls = origDigits[i] * 2 > 9 ? "reduced" : "doubled";
+          else if (isCheck) cls = "check";
+        } else if (mode === "s4") {
+          if (isCheck) cls = "check";
+          else if (is2x) cls = origDigits[i] * 2 > 9 ? "reduced" : "doubled";
+        }
+        const lbl = isCheck ? "chk" : is2x ? "×2" : "—";
+        return `<div class="dc"><div class="db ${cls}">${v}</div><div class="dlabel">${lbl}</div></div>`;
+      })
+      .join("");
+  }
+
+  function run() {
+    const raw = document.getElementById("ci").value.replace(/\s/g, "");
+    const el = document.getElementById("steps");
+    if (!/^\d{13,19}$/.test(raw)) {
+      el.innerHTML =
+        '<div class="step"><p style="color:#b52b2b;font-size:14px;">Please enter a valid card number (13–19 digits).</p></div>';
+      return;
+    }
+    const digits = raw.split("").map(Number);
+    const n = digits.length;
+
+    const doubled = digits.map((d, i) => ((n - 1 - i) % 2 === 1 ? d * 2 : d));
+    const reduced = doubled.map((d) => (d > 9 ? d - 9 : d));
+    const total = reduced.reduce((a, b) => a + b, 0);
+    const pass = total % 10 === 0;
+
+    const reductions = digits
+      .map((d, i) =>
+        (n - 1 - i) % 2 === 1 && d * 2 > 9
+          ? `${d}×2=${d * 2}→${d * 2 - 9}`
+          : null,
+      )
+      .filter(Boolean);
+
+    el.innerHTML = `
+    <div class="step">
+      <div class="step-tag">Step 1</div>
+      <div class="step-title">Identify the check digit (rightmost)</div>
+      <div class="digits-row">${digitRow(digits, "s1", digits, n)}</div>
+      <p class="step-desc">The <span style="color:#1a4db5;font-weight:600">blue digit</span> on the far right is the check digit. It is never modified — it acts as the validation anchor.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-tag">Step 2</div>
+      <div class="step-title">Double every second digit from the right</div>
+      <div class="digits-row">${digitRow(doubled, "s2", digits, n)}</div>
+      <p class="step-desc"><span style="color:#9a5c00;font-weight:600">Amber digits</span> have been multiplied by 2. The check digit and alternating positions remain unchanged.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-tag">Step 3</div>
+      <div class="step-title">Subtract 9 from any value greater than 9</div>
+      <div class="digits-row">${digitRow(reduced, "s3", digits, n)}</div>
+      <p class="step-desc"><span style="color:#156b3b;font-weight:600">Green digits</span> had 9 subtracted. This is identical to summing the two digits (e.g. 16−9 = 7, same as 1+6 = 7).</p>
+      ${reductions.length ? `<p class="step-note">Reductions: ${reductions.join(" · ")}</p>` : `<p class="step-note">No values exceeded 9 — no reductions needed.</p>`}
+    </div>
+
+    <div class="step">
+      <div class="step-tag">Step 4</div>
+      <div class="step-title">Add all digits together</div>
+      <div class="digits-row">${digitRow(reduced, "s4", digits, n)}</div>
+      <div class="sum-num">${total}</div>
+      <div class="sum-eq">${reduced.join(" + ")} = ${total}</div>
+    </div>
+
+    <div class="step">
+  <div class="step-tag">Step 5</div>
+  <div class="step-title">Check if sum ÷ 10 has remainder 0</div>
+
+  <div class="mod-display">
+    ${total} % 10 = ${total % 10}
+  </div>
+
+  <div>
+    <div class="badge ${pass ? "pass" : "fail"}">
+      <span class="badge-icon">${pass ? "✓" : "✗"}</span>
+      ${pass ? "Valid — Passes Luhn Check" : "Invalid — Fails Luhn Check"}
+    </div>
+  </div>
+
+  <p class="step-desc" style="margin-top:10px;">
+    ${
+      pass
+        ? "The sum is perfectly divisible by 10, so this card number is structurally valid."
+        : `The remainder is ${total % 10}, not 0, so this card number fails the Luhn validation.`
+    }
+  </p>
+
+  <div class="next-step ${pass ? "next-pass" : "next-fail"}">
+    ${
+      pass
+        ? `
+        <div class="next-title">What happens next?</div>
+
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-success">
+          ✅ Request can continue to the backend.
+        </div>
+
+        <ul>
+          <li>Backend receives the payment request.</li>
+          <li>Payment gateway validates the card details.</li>
+          <li>Issuing bank performs the actual verification.</li>
+        </ul>
+        `
+        : `
+        <div class="next-title">What happens next?</div>
+
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-stop">
+          🚫 Request stopped here.
+        </div>
+
+        <ul>
+          <li>No backend request is made.</li>
+          <li>No payment gateway call.</li>
+          <li>No issuing bank validation.</li>
+        </ul>
+        `
+    }
+  </div>
+</div>
+
+  `;
+  }
+
+  run();
+</script>
