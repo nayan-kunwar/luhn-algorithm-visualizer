@@ -11,7 +11,7 @@ This project was created as a learning resource to help developers understand **
 ## Preview
 
 ![Luhn Algorithm Visualizer](assets/preview.png)
-
+![Luhn Algorithm Visualizer 2](assets/preview2.png)
 The visualizer walks through every stage of the Luhn algorithm:
 
 * 🔹 Identify the check digit
@@ -85,7 +85,7 @@ No frameworks or external libraries are required.
 Clone the repository:
 
 ```bash
-git clone https://github.com/<your-github-username>/luhn-algorithm-visualizer.git
+git clone https://github.com/nayan-kunwar/luhn-algorithm-visualizer.git
 ```
 
 Move into the project:
